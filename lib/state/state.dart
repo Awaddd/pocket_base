@@ -11,7 +11,7 @@ final pocketbase = Provider((ref) {
 });
 
 // local sqflite provider
-final databaseProvider = Provider((ref) async {
+final database = Provider((ref) async {
   return openDatabase(
     join(await getDatabasesPath(), 'pb_demo.db'),
     onCreate: (db, version) async {
