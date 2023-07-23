@@ -4,7 +4,7 @@ import 'package:pocket_base/controllers/dogs_controller.dart';
 import 'package:pocket_base/models/dog.dart';
 
 final dogsTextControllers =
-    StateProvider<Map<int, TextEditingController>>((ref) => {});
+    StateProvider<Map<String, TextEditingController>>((ref) => {});
 
 final dogsProvider = StateNotifierProvider<DogsNotifier, List<Dog>>((ref) {
   return DogsNotifier(ref);
@@ -20,22 +20,22 @@ class DogsNotifier extends StateNotifier<List<Dog>> {
     return state = dogs;
   }
 
-  Future<Dog> fetch(int id) async {
+  Future<Dog> fetch(String id) async {
     return DogsController(ref).fetch(id);
   }
 
-  Future<int> create(String name) async {
+  Future<String> create(String name) async {
     final controller = DogsController(ref);
-    final id = await controller.create(name);
-    final dog = await controller.fetch(id);
+    await controller.create(name);
+    final dog = await controller.fetchByName(name);
 
     final dogs = state.toList();
     dogs.add(dog);
     state = dogs;
-    return id;
+    return dog.id;
   }
 
-  Future<void> update(int id, String name) async {
+  Future<void> update(String id, String name) async {
     final controller = DogsController(ref);
     await controller.update(id, name);
     final dog = await controller.fetch(id);
@@ -44,7 +44,7 @@ class DogsNotifier extends StateNotifier<List<Dog>> {
     state[index] = dog;
   }
 
-  Future<void> delete(int id) async {
+  Future<void> delete(String id) async {
     await DogsController(ref).delete(id);
     final dogs = state.toList();
 

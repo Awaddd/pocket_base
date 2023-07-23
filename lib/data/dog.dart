@@ -11,9 +11,17 @@ class Dogs {
     await db.execute(
       '''
         CREATE TABLE IF NOT EXISTS $tableName (
-          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          id TEXT PRIMARY KEY,
           name TEXT NOT NULL
-        );
+        ) WITHOUT ROWID;
+      ''',
+    );
+  }
+
+  Future<void> deleteTable() async {
+    await db.execute(
+      '''
+        DROP TABLE $tableName;
       ''',
     );
   }
@@ -28,7 +36,7 @@ class Dogs {
     return dogs.map((dog) => Dog.fromLocalDatabase(dog)).toList();
   }
 
-  Future<Dog> fetch(int id) async {
+  Future<Dog> fetch(String id) async {
     final dogs = await db.rawQuery(
       '''
         SELECT *
@@ -40,16 +48,28 @@ class Dogs {
     return Dog.fromLocalDatabase(dogs.first);
   }
 
-  Future<int> create(String name) async {
+  Future<Dog> fetchByName(String name) async {
+    final dogs = await db.rawQuery(
+      '''
+        SELECT *
+        FROM $tableName
+        WHERE name = "$name"
+      ''',
+    );
+
+    return Dog.fromLocalDatabase(dogs.first);
+  }
+
+  Future<int> create(String id, String name) async {
     return db.rawInsert(
       '''
-        INSERT INTO $tableName (name) VALUES (?)
+        INSERT INTO $tableName (id, name) VALUES (?, ?)
       ''',
-      [name],
+      [id, name],
     );
   }
 
-  Future<int> update(int id, String name) async {
+  Future<int> update(String id, String name) async {
     return db.rawUpdate(
       '''
         UPDATE $tableName
@@ -59,7 +79,7 @@ class Dogs {
     );
   }
 
-  Future<int> delete(int id) async {
+  Future<int> delete(String id) async {
     return db.rawDelete(
       '''
         DELETE

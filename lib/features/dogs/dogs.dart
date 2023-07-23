@@ -16,7 +16,7 @@ class _DogsState extends ConsumerState<Dogs> {
   String? error;
   bool loading = true;
 
-  Map<int, bool> editingState = {};
+  Map<String, bool> editingState = {};
 
   @override
   void initState() {
@@ -28,7 +28,7 @@ class _DogsState extends ConsumerState<Dogs> {
     final data = await ref.read(dogsProvider.notifier).fetchAll();
     final textEditingControllers = ref.read(dogsTextControllers.notifier);
 
-    final Map<int, TextEditingController> controllers = {};
+    final Map<String, TextEditingController> controllers = {};
 
     for (final dog in data) {
       controllers[dog.id] = TextEditingController();
@@ -37,7 +37,7 @@ class _DogsState extends ConsumerState<Dogs> {
     textEditingControllers.state = controllers;
   }
 
-  Future<void> updateDog(int id, String name) async {
+  Future<void> updateDog(String id, String name) async {
     await ref.read(dogsProvider.notifier).update(id, name);
 
     setState(() {
@@ -45,13 +45,13 @@ class _DogsState extends ConsumerState<Dogs> {
     });
   }
 
-  void close(int id) {
+  void close(String id) {
     setState(() {
       editingState[id] = false;
     });
   }
 
-  Future<void> deleteDog(int id) async {
+  Future<void> deleteDog(String id) async {
     await ref.read(dogsProvider.notifier).delete(id);
   }
 
@@ -131,8 +131,8 @@ class EditDog extends StatelessWidget {
 
   final Dog dog;
   final TextEditingController controller;
-  final void Function(int id) close;
-  final void Function(int id, String name) update;
+  final void Function(String id) close;
+  final void Function(String id, String name) update;
 
   @override
   Widget build(BuildContext context) {
