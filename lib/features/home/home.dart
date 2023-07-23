@@ -9,9 +9,9 @@ class Home extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final user = ref.read(authstateProvider)!;
+    final user = ref.read(authProvider)!;
 
-    void logout() => ref.read(authstateProvider.notifier).logout();
+    void logout() => ref.read(authProvider.notifier).logout();
 
     final title = Theme.of(context)
         .textTheme

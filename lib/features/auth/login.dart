@@ -25,7 +25,7 @@ class _LoginState extends ConsumerState<Login> {
 
     if (isValid == false) return;
 
-    final auth = ref.read(authstateProvider.notifier);
+    final auth = ref.read(authProvider.notifier);
 
     auth.login(
       usernameController.text,

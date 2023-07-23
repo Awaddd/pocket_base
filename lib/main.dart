@@ -15,9 +15,9 @@ class MainApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    ref.read(authstateProvider.notifier).registerListener();
+    ref.read(authProvider.notifier).registerListener();
 
-    final user = ref.watch(authstateProvider);
+    final user = ref.watch(authProvider);
 
     return MaterialApp(
       title: 'Pocket Base Demo',

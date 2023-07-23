@@ -29,7 +29,7 @@ class _RegisterState extends ConsumerState<Register> {
 
     if (isValid == false) return;
 
-    final auth = ref.read(authstateProvider.notifier);
+    final auth = ref.read(authProvider.notifier);
 
     auth.register(
       nameController.text,

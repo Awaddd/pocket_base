@@ -8,7 +8,7 @@ enum CurrentAuthScreen { login, register }
 final authScreenProvider =
     StateProvider<CurrentAuthScreen>((ref) => CurrentAuthScreen.login);
 
-final authstateProvider = StateNotifierProvider<AuthStateNotifier, User?>(
+final authProvider = StateNotifierProvider<AuthStateNotifier, User?>(
   (ref) => AuthStateNotifier(ref),
 );
 
