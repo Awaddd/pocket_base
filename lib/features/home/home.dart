@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pocket_base/components/atoms/button.dart';
 import 'package:pocket_base/core/utils/constants.dart';
+import 'package:pocket_base/features/messages/message_list.dart';
 import 'package:pocket_base/state/auth_state.dart';
 
 class Home extends ConsumerWidget {
@@ -26,7 +27,9 @@ class Home extends ConsumerWidget {
 
         Text('Hi ${user.name}', style: title),
 
-        const Spacer(),
+        const SizedBox(height: xl),
+
+        const MessageList(),
 
         //
         Button(text: 'Logout', onPressed: logout),
