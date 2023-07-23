@@ -1,31 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:pocket_base/components/atoms/button.dart';
 import 'package:pocket_base/core/utils/constants.dart';
-import 'package:pocket_base/features/dogs/dogs_screen.dart';
+import 'package:pocket_base/state/auth_state.dart';
 
-class Home extends ConsumerStatefulWidget {
+class Home extends ConsumerWidget {
   const Home({super.key});
 
   @override
-  ConsumerState<Home> createState() => _HomeState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    final user = ref.read(authstateProvider)!;
 
-class _HomeState extends ConsumerState<Home> {
-  @override
-  Widget build(BuildContext context) {
+    void logout() => ref.read(authstateProvider.notifier).logout();
+
     final title = Theme.of(context)
         .textTheme
         .headlineMedium
         ?.copyWith(fontWeight: FontWeight.w500);
 
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         //
-        const SizedBox(height: xl),
+        const SizedBox(height: sm),
 
-        Text('Pocket Base', style: title),
+        Text('Hi ${user.name}', style: title),
 
-        const DogsScreen(),
+        const Spacer(),
+
+        //
+        Button(text: 'Logout', onPressed: logout),
       ],
     );
   }
